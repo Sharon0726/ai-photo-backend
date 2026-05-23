@@ -26,14 +26,17 @@ def say_hello(name: str):
 
 
 class PhotoRequest(BaseModel):
-    name: str
     style: str
+    prompt: str
+    celebrity_name: str | None = None
 
 
 @app.post("/generate-photo")
 def generate_photo(request: PhotoRequest):
     return {
-        "message": "Photo generation request received",
-        "name": request.name,
-        "style": request.style
+        "message": "AI photo generation request received",
+        "style": request.style,
+        "prompt": request.prompt,
+        "celebrity_name": request.celebrity_name,
+        "status": "mock_success"
     }
