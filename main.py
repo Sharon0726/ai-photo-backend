@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, UploadFile, File, Form
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
@@ -39,4 +39,19 @@ def generate_photo(request: PhotoRequest):
         "prompt": request.prompt,
         "celebrity_name": request.celebrity_name,
         "status": "mock_success"
+    }
+
+@app.post("/upload-photo")
+async def upload_photo(
+    file: UploadFile = File(...),
+    style: str = Form("photo_booth"),
+    prompt: str = Form("")
+):
+    return {
+        "message": "Photo upload received",
+        "filename": file.filename,
+        "content_type": file.content_type,
+        "style": style,
+        "prompt": prompt,
+        "status": "upload_success"
     }
